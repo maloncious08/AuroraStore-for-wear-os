@@ -1,9 +1,7 @@
-name: Build Aurora Store Watch 65
+name: Build Aurora Store Watch
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ master, main ]
 
 jobs:
   build:
@@ -22,11 +20,15 @@ jobs:
       - name: Grant Execute Permission for Gradlew
         run: chmod +x gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Build Vanilla Debug APK
+        run: ./gradlew assembleVanillaDebug --stacktrace
+
+      - name: List Generated APKs
+        run: find . -name "*.apk"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: AuroraStore-Watch-65-Padding
-          path: app/build/outputs/apk/debug/*.apk
+          name: AuroraStore-Watch-65
+          path: "**/*.apk"
+          if-no-files-found: error
