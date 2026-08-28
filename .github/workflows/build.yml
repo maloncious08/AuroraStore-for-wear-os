@@ -1,6 +1,7 @@
 name: Build Aurora Store Watch
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
@@ -23,12 +24,10 @@ jobs:
       - name: Build Vanilla Debug APK
         run: ./gradlew assembleVanillaDebug --stacktrace
 
-      - name: List Generated APKs
-        run: find . -name "*.apk"
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: AuroraStore-Watch-65
           path: "**/*.apk"
           if-no-files-found: error
+          
