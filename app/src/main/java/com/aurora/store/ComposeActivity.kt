@@ -7,6 +7,7 @@
 package com.aurora.store
 
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -56,6 +57,12 @@ class ComposeActivity : FragmentActivity() {
         MigrationReceiver.runMigrationsIfRequired(this)
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        // 圆屏手表安全边距注入（左右 16dp，上下 12dp，防止弧形屏幕切边）
+        val density = resources.displayMetrics.density
+        val padH = (16 * density).toInt()
+        val padV = (12 * density).toInt()
+        findViewById<View>(android.R.id.content)?.setPadding(padH, padV, padH, padV)
 
         intent.setExtrasClassLoader(Screen::class.java.classLoader)
 
